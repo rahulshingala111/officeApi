@@ -1,51 +1,58 @@
-import React,{ useRef, useState, useEffect, useLayoutEffect } from 'react';
+import React,{useState} from 'react';
 import axios from 'axios';
-import { response } from 'express';
 
 const Login = () => {
+  const [name, setName] = useState('')
+  const [password, setPassword] = useState('')
+  const [occupation, setOccupation] = useState('')
 
-  const userRef = useRef();
+  const handleUserName = (e) => {
+    console.log(e.target.value)
+    setName(e.target.value)
+  }
+  const handlePassword = (e) => {
+    console.log(e.target.value)
+    setPassword(e.target.value)
+  }
+  const handleOccupation = (e) => {
+    console.log(e.target.value)
+    setOccupation(e.target.value)
+  }
+  const handleSubmit = (e) =>{
+    e.preventDefault()
+    console.log("submitted");
 
-  const[name ,setUser] = useState('');
-  const[password ,setPwd] = useState('');
-  const[occupation ,setOccu] = useState('');
-  const[success ,setSuccess] = useState(false);
-
-  useEffect(()=>{
-    userRef.current.focus();
-  },[])
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSuccess(true);
-    console.log("sucess");
     axios.post('/Login',{
-      name: name,
-      password: password,
-      occupation: occupation
+      name:name,
+      password:password,
+      occupation:occupation
     })
     .then((response)=>{
-      console.log(response.data);
+      console.log(response.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+      console.log(err.response)
     })
   }
 
   return (
       
-    <form onSubmit={handleSubmit}>
+    <form class="myForm" onSubmit={handleSubmit}>
 
   <div class="mb-3">
     <label htmlFor='name' class="form-label">Name</label>
-    <input type="text" class="form-control" id="name" ref={userRef} autoComplete='off' onChange={(e)=> setUser(e.target.value)} required/>
+    <input type="text" value={name} class="form-control" id="name" autoComplete='off' onChange={handleUserName} required/>
   </div>
 
   <div class="mb-3">
     <label htmlFor='password' class="form-label">Password</label>
-    <input type="password" class="form-control" id="password" onChange={(e)=> setPwd(e.target.value)} required/>
+    <input type="password" value={password}  class="form-control" id="password" onChange={handlePassword} required/>
   </div>
 
   <div class="mb-3">
   <label htmlFor='occupation' class="form-label">occupation</label>
-    <input type="occupation" class="form-control" id="occupation" onChange={(e)=> setOccu(e.target.value)}  required/>
+    <input type="occupation" value={occupation}  class="form-control" id="occupation" onChange={handleOccupation}  required/>
   </div>
 
   <button type="submit" class="btn btn-primary">Submit</button>

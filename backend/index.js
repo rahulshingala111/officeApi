@@ -36,14 +36,9 @@ app.get('/Login',function(req,res){
 })
 app.post('/Login',function(req,res){
 
-
     const name = req.body.name;
     const password = req.body.password;
     const occupation = req.body.occupation;
-    // console.log(name);
-    // console.log(password);
-    // console.log(occupation);
-    
 })
 
 
