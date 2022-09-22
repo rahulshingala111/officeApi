@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import axios from 'axios';
 
-const Login = () => {
+const Register = () => {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [occupation, setOccupation] = useState('')
@@ -61,5 +61,5 @@ const Login = () => {
   );
   };
   
-  export default Login;
+  export default Register;
   

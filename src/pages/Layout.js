@@ -16,7 +16,7 @@ const Layout = () => {
           <a class="nav-link" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/Login">Login</a>
+          <a class="nav-link" href="/Register">Register</a>
         </li>
         {/* <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
