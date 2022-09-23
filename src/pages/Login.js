@@ -22,7 +22,7 @@ const Login = () => {
     e.preventDefault();
     console.log("submitted");
     axios
-      .post("/Register", {
+      .get("/Login", {
         name: name,
         password: password,
         occupation: occupation,
@@ -42,6 +42,7 @@ const Login = () => {
         <label htmlFor="name" class="form-label">
           Name
         </label>
+        <p></p>
         <input
           type="text"
           value={name}

@@ -19,11 +19,11 @@ db.once("open", () => {
   console.log("Database connected");
 });
 app.get("/", function (req, res) {
-  res.render("/");
+  //res.render("/");
 });
 
 app.get("/Register", function (req, res) {
-  res.render("/Register");
+  //res.render("/Register");
 });
 
 app.post("/Register", function (req, res) {
@@ -34,6 +34,11 @@ app.post("/Register", function (req, res) {
   newProduct.save();
   console.log(newProduct);
   res.redirect("/Home");
+});
+
+app.get("/Login", async(req, res) => {
+  const abc = await schema.find({});
+  res.render('/Login',{abc});
 });
 
 // app.get('/Login', function(req, res, next) {

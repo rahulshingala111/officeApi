@@ -32,10 +32,10 @@ const Layout = () => {
                   Register
                 </a>
               </li>
-              {/* <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+              <li class="nav-item">
+          <a class="nav-link" href="/Login">Login</a>
         </li>
-        <li class="nav-item">
+        {/* <li class="nav-item">
           <a class="nav-link disabled">Disabled</a>
         </li> */}
             </ul>
