@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -32,6 +30,7 @@ const Register = () => {
       })
       .then((response) => {
         console.log(response);
+        alert("submited");
       })
       .catch((err) => {
         console.log(err);
@@ -90,17 +89,6 @@ const Register = () => {
       <button type="submit" class="btn btn-primary">
         Submit
       </button>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </form>
   );
 };

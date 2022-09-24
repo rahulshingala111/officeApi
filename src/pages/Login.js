@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Login = () => {
+
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [occupation, setOccupation] = useState("");
+
+  // function onSuccess(response) {}
 
   const handleUserName = (e) => {
     console.log(e.target.value);
@@ -27,12 +30,11 @@ const Login = () => {
         password: password,
         occupation: occupation,
       })
-      .then((response) => {
+      .then(function (response) {
         console.log(response);
       })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response);
+      .catch(function (error) {
+        console.log(error);
       });
   };
 
