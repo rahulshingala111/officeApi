@@ -4,6 +4,7 @@ const router = express.Router();
 const app = express();
 const mongoose = require("mongoose");
 const schema = require("./schema");
+const { useCallback } = require("react");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -51,6 +52,7 @@ app.get("/Login", async (req, res) => {
     }
     else {
         res.json(posts);
+        //return useCallback(data)
     }
 });
 });

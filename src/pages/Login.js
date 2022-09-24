@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Login = () => {
-
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [occupation, setOccupation] = useState("");
@@ -28,7 +27,7 @@ const Login = () => {
       .get("/Login", {
         name: name,
         password: password,
-        occupation: occupation,
+        occupation: occupation
       })
       .then(function (response) {
         console.log(response);
