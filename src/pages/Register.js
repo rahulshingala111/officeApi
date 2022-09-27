@@ -26,7 +26,7 @@ const Register = () => {
       .post("/Register", {
         name: name,
         password: password,
-        occupation: occupation,
+        occupation: occupation
       })
       .then((response) => {
         console.log(response);

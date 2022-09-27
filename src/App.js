@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import NoPage from "./pages/NoPage";
+import Private from "./pages/Private";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/Login" element={<Login />} />
+          <Route path="/Private" element={<Private />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

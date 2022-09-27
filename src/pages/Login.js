@@ -20,19 +20,17 @@ const Login = () => {
     console.log(e.target.value);
     setOccupation(e.target.value);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     console.log("submitted");
     axios
-      .get("/Login", {
-        name: name,
-        password: password,
-        occupation: occupation
-      })
-      .then(function (response) {
+      .post("/Login", {})
+      .then((response) => {
         console.log(response);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       });
   };
