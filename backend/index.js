@@ -1,11 +1,12 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const app = express();
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const schema = require("./schema");
-// app.set("view engine", "html");
-// app.use(express.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
+
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 mongoose.connect("mongodb://localhost:27017/firstreactdb", {
   useNewUrlParser: true,
@@ -17,34 +18,17 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
   console.log("Database connected");
 });
-app.get("/", function (req, res) {
-  res.render("/");
-});
-app.get("/Private",(req,res)=>{
-  res.render("/Private");
-})
 
-
-app.get("/Register", function (req, res) {
+app.get("/Login", function (req, res) {
   res.render("/Register");
 });
 
-app.post("/Register", function (req, res) {
-  const name = req.body.name;
-  const password = req.body.password;
-  const occupation = req.body.occupation;
-  const newProduct = new schema(req.body);
-  newProduct.save();
-  console.log(newProduct);
-  //res.redirect("/Home");
-});
-
-app.get("/Login", (req, res) => {
-  res.render("register");
-});
-app.post("/Login", (req, res) => {
+app.post("/Login", function (req, res) {
   const { name, password, occupation } = req.body;
-  console.log("___________________");
+  console.log("______________");
+  console.log(req.body.name);
+  console.log(req.body.password);
+  console.log(req.body.occupation);
 
   const abc = schema.findOne({ name: req.body.name }, (err, suc) => {
     if (err) {
@@ -53,7 +37,7 @@ app.post("/Login", (req, res) => {
       if (suc === null) {
         console.log("USERNAME = INCORRECT");
       } else {
-        console.log("USERNAME = CORRECT");res.render("/Private");
+        console.log("USERNAME = CORRECT");
       }
     }
   });
@@ -64,7 +48,7 @@ app.post("/Login", (req, res) => {
       if (suc === null) {
         console.log("PASSWORD = INCORRECT");
       } else {
-        console.log("PASSWORD = CORRECT");res.render("/Private");
+        console.log("PASSWORD = CORRECT");
       }
     }
   });
@@ -77,11 +61,24 @@ app.post("/Login", (req, res) => {
         if (suc === null) {
           console.log("OCCUPATION = INCORRECT");
         } else {
-          console.log("OCCUPATION = CORRECT");res.render("/Private");
+          console.log("OCCUPATION = CORRECT");
         }
       }
     }
   );
+});
+app.get("/", function (req, res) {
+  res.render("/");
+});
+app.get("/Register", function (req, res) {
+  res.render("/Register");
+});
+
+app.post("/Register", function (req, res) {
+  const newProduct = new schema(req.body);
+  newProduct.save();
+  console.log(newProduct);
+  //res.redirect("/Home");
 });
 
 const port = process.env.PORT || 3000;

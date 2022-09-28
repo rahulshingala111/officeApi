@@ -26,12 +26,16 @@ const Login = () => {
 
     console.log("submitted");
     axios
-      .post("/Login", {})
+      .post("/Login", {
+        name: name,
+        password: password,
+        occupation: occupation
+      })
       .then((response) => {
-        console.log(response);
+        console.log(response)
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
       });
   };
 
@@ -87,6 +91,9 @@ const Login = () => {
       <button type="submit" class="btn btn-primary">
         Submit
       </button>
+    <br />
+      <div>Don't have an account</div>
+      <div><a  href="/Register">Create here!</a></div>
     </form>
   );
 };

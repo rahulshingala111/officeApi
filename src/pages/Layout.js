@@ -4,7 +4,7 @@ const Layout = () => {
   return (
     <>
       <Link />
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">
             API
@@ -23,7 +23,7 @@ const Layout = () => {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/">
+                <a class="nav-link active" aria-current="page" href="/">
                   Home
                 </a>
               </li>
@@ -33,11 +33,13 @@ const Layout = () => {
                 </a>
               </li>
               <li class="nav-item">
-          <a class="nav-link" href="/Login">Login</a>
-        </li>
-        {/* <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li> */}
+                <a class="nav-link" href="/Login">
+                  Login
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
             </ul>
           </div>
         </div>
