@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const schema = require("./schema");
-
+const jwt = require("jsonwebtoken");
 const app = express();
 
 app.use(express.json());
@@ -21,16 +21,10 @@ db.once("open", () => {
 });
 
 app.get("/Login", function (req, res) {
-  res.render("/Register");
+  res.render("/Login");
 });
 
-app.post("/Login", function (req, res) {
-  const { name, password, occupation } = req.body;
-  console.log("______________");
-  console.log(req.body.name);
-  console.log(req.body.password);
-  console.log(req.body.occupation);
-
+app.post("/Login", async (req, res) => {
   const abc = schema.findOne({ name: req.body.name }, (err, suc) => {
     if (err) {
       console.log(err);
@@ -38,35 +32,56 @@ app.post("/Login", function (req, res) {
       if (suc === null) {
         console.log("USERNAME = INCORRECT");
       } else {
-        console.log("USERNAME = CORRECT");
+        const dfg = schema.findOne(
+          { password: req.body.password },
+          (err, suc) => {
+            if (err) {
+              console.log(err);
+            } else {
+              if (suc === null) {
+                console.log("PASSWORD = INCORRECT");
+              } else {
+                const hik = schema.findOne(
+                  { occupation: req.body.occupation },
+                  (err, suc) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      if (suc === null) {
+                        console.log("OCCUPATION = INCORRECT");
+                      } else {
+                        console.log("DATA CORRECT");
+
+                        if (suc) {
+                          const id = req.body._id;
+                          const token = jwt.sign({ id }, "jwtSecret", {
+                            expiresIn: 300,
+                          });
+                          res.json({ auth: true, token: token, suc: suc });
+                        } else {
+                          res.json({
+                            auth: false,
+                            message: "Wrong username/password",
+                          });
+                        }
+                      }
+                    }
+                  }
+                );
+              }
+            }
+          }
+        );
       }
     }
   });
-  const dfg = schema.findOne({ password: req.body.password }, (err, suc) => {
+
+  const jkl = schema.findOne({ id: req.body._id }, (err, suc) => {
     if (err) {
       console.log(err);
     } else {
-      if (suc === null) {
-        console.log("PASSWORD = INCORRECT");
-      } else {
-        console.log("PASSWORD = CORRECT");
-      }
     }
   });
-  const hik = schema.findOne(
-    { occupation: req.body.occupation },
-    (err, suc) => {
-      if (err) {
-        console.log(err);
-      } else {
-        if (suc === null) {
-          console.log("OCCUPATION = INCORRECT");
-        } else {
-          console.log("OCCUPATION = CORRECT");
-        }
-      }
-    }
-  );
 });
 app.get("/", function (req, res) {
   res.render("/");
@@ -76,10 +91,22 @@ app.get("/Register", function (req, res) {
 });
 
 app.post("/Register", function (req, res) {
+  // const abc = schema.findOne({ name: req.body.name }, (err, suc) => {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     if (suc === null) {
+  //       const newname = new schema(req.body.name);
+  //       newname.save();
+  //       console.log(newname);
+  //     } else {
+  //       console.log("USERNAME = CORRECT");
+  //     }
+  //   }
+  // });
   const newProduct = new schema(req.body);
   newProduct.save();
   console.log(newProduct);
-  //res.redirect("/Home");
 });
 
 const port = process.env.PORT || 3000;
