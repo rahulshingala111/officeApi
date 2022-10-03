@@ -38,7 +38,7 @@ const Layout = () => {
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
+                {/* <a class="nav-link disabled">Disabled</a> */}
               </li>
             </ul>
           </div>

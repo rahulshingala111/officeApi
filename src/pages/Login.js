@@ -30,6 +30,9 @@ const Login = () => {
         name: name,
         password: password,
         occupation: occupation
+        // headers: {
+        //   'Authorization': `Basic ${token}`
+        // }
       })
       .then((response) => {
         console.log(response)
@@ -92,7 +95,7 @@ const Login = () => {
         Submit
       </button>
     <br />
-      <div>Don't have an account</div>
+      <div>Don't have an account?</div>
       <div><a  href="/Register">Create here!</a></div>
     </form>
   );

@@ -20,11 +20,48 @@ db.once("open", () => {
   console.log("Database connected");
 });
 
+const isAuthenticated = (req, res, next) => {
+  let isUserAuthenticated = true;
+
+  const authHeader = req.get("Authorization");
+  console.log(authHeader);
+  if (!authHeader) {
+    res.status(401).send("Not Authenticated");
+  }
+  let token = authHeader.split(" ")[1];
+  let decodedToken;
+  try {
+    decodedToken = jwt.verify(token, "jwtSecret");
+    console.log(decodedToken);
+  } catch (error) {
+    console.log(error);
+  }
+  console.log(`TOCKEN ${token}`);
+
+  if (isUserAuthenticated) {
+    next();
+  } else {
+    throw new Error("User not exist");
+  }
+};
 app.get("/Login", function (req, res) {
-  res.render("/Login");
+  //res.render("/Login");
+  // const token = req.headers.authorization.split(" ")[1];
+  //  Authorization: "Bearer TOKEN";
+  // if (!token) {
+  //   res
+  //     .status(200)
+  //     .json({ auth: false, message: "Error! Token was not provided." });
+  // }
+  //Decoding the token
+  // const decodedToken = jwt.verify(token, "jwtSecret");
+  // res.status(200).json({
+  //   auth: false,
+  //   message: "SUccess",
+  // });
 });
 
-app.post("/Login", async (req, res) => {
+app.post("/Login", isAuthenticated, async (req, res) => {
   const abc = schema.findOne({ name: req.body.name }, (err, suc) => {
     if (err) {
       console.log(err);
@@ -51,10 +88,9 @@ app.post("/Login", async (req, res) => {
                         console.log("OCCUPATION = INCORRECT");
                       } else {
                         console.log("DATA CORRECT");
-
                         if (suc) {
-                          const id = req.body._id;
-                          const token = jwt.sign({ id }, "jwtSecret", {
+                          const name = req.body.name;
+                          const token = jwt.sign({ name }, "jwtSecret", {
                             expiresIn: 300,
                           });
                           res.json({ auth: true, token: token, suc: suc });
@@ -75,13 +111,6 @@ app.post("/Login", async (req, res) => {
       }
     }
   });
-
-  const jkl = schema.findOne({ id: req.body._id }, (err, suc) => {
-    if (err) {
-      console.log(err);
-    } else {
-    }
-  });
 });
 app.get("/", function (req, res) {
   res.render("/");
@@ -91,19 +120,19 @@ app.get("/Register", function (req, res) {
 });
 
 app.post("/Register", function (req, res) {
-  // const abc = schema.findOne({ name: req.body.name }, (err, suc) => {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     if (suc === null) {
-  //       const newname = new schema(req.body.name);
-  //       newname.save();
-  //       console.log(newname);
-  //     } else {
-  //       console.log("USERNAME = CORRECT");
-  //     }
-  //   }
-  // });
+  const abc = schema.findOne({ name: req.body.name }, (err, suc) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (suc === null) {
+        const newname = new schema(req.body.name);
+        newname.save();
+        console.log(newname);
+      } else {
+        console.log("USERNAME = CORRECT");
+      }
+    }
+  });
   const newProduct = new schema(req.body);
   newProduct.save();
   console.log(newProduct);
