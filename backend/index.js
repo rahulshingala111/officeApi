@@ -21,27 +21,36 @@ db.once("open", () => {
 });
 
 const isAuthenticated = (req, res, next) => {
-  let isUserAuthenticated = true;
+  // let isUserAuthenticated = true;
 
-  const authHeader = req.get("Authorization");
-  console.log(authHeader);
-  if (!authHeader) {
-    res.status(401).send("Not Authenticated");
-  }
-  let token = authHeader.split(" ")[1];
-  let decodedToken;
-  try {
-    decodedToken = jwt.verify(token, "jwtSecret");
-    console.log(decodedToken);
-  } catch (error) {
-    console.log(error);
-  }
-  console.log(`TOCKEN ${token}`);
+  // const authHeader = req.get("Authorization");
+  // console.log(authHeader);
+  // if (!authHeader) {
+  //   res.status(401).send("Not Authenticated");
+  // }
+  // let token = authHeader.split(" ")[1];
+  // let decodedToken;
+  // try {
+  //   decodedToken = jwt.verify(token, "jwtSecret");
+  //   console.log(decodedToken);
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  // console.log(`TOCKEN ${token}`);
 
-  if (isUserAuthenticated) {
+  // if (isUserAuthenticated) {
+  //   next();
+  // } else {
+  //   throw new Error("User not exist");
+  // }
+  const bearerHeader = req.get("Authorization");
+  if (typeof bearerHeader !== "undefined") {
+    const bearer = bearerHeader.split(" ");
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
     next();
   } else {
-    throw new Error("User not exist");
+    res.sendStatus(403);
   }
 };
 app.get("/Login", function (req, res) {
@@ -90,9 +99,15 @@ app.post("/Login", isAuthenticated, async (req, res) => {
                         console.log("DATA CORRECT");
                         if (suc) {
                           const name = req.body.name;
-                          const token = jwt.sign({ name }, "jwtSecret", {
-                            expiresIn: 300,
-                          });
+                          const password = req.body.password;
+                          const occupation = req.body.occupation;
+                          const token = jwt.sign(
+                            { name, password, occupation },
+                            "jwtSecret",
+                            {
+                              expiresIn: 300,
+                            }
+                          );
                           res.json({ auth: true, token: token, suc: suc });
                         } else {
                           res.json({
@@ -112,6 +127,23 @@ app.post("/Login", isAuthenticated, async (req, res) => {
     }
   });
 });
+
+app.get("/Login/protected", isAuthenticated, (req, res) => {
+  jwt.verify(req.token, "jwtSecret", (err, data) => {
+    if (err) {
+      res.json({ 
+        message: "unauthorized",
+        status: 403 
+      });
+    } else {
+      res.json({
+        text: "this is Protected",
+        data: data,
+      });
+    }
+  });
+});
+
 app.get("/", function (req, res) {
   res.render("/");
 });

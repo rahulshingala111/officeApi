@@ -23,16 +23,19 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const username = ''
+const password = ''
 
+const token = Buffer.from(`${username}:${password}`, 'utf8').toString('base64') 
     console.log("submitted");
     axios
       .post("/Login", {
         name: name,
         password: password,
-        occupation: occupation
-        // headers: {
-        //   'Authorization': `Basic ${token}`
-        // }
+        occupation: occupation,
+        headers: {
+          'Authorization': `Basic ${token}`
+        }
       })
       .then((response) => {
         console.log(response)
